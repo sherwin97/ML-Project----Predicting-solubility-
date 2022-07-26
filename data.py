@@ -4,13 +4,9 @@ import numpy as np
 from rdkit import Chem
 from rdkit.Chem import Descriptors
 
-# load data set, data obtained from delaney paper on ESOL
 data = pd.read_csv(
     "/Users/sherwinng/Desktop/VS_code/chem/ci034243xsi20040112_053635.txt"
 )
-
-# to obtain LogP, MW, RB TPSA for each mol
-
 
 def desc(smiles):
     """
