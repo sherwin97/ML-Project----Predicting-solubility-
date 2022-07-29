@@ -3,17 +3,17 @@ A personal project to predict solubility of given molecules using their molecula
 
 Comprises of three python scripts. Scripts can be ran in command line using the follow instructions. 
 1. prepare_data.py allow users to obtain the molecules desciptors and prepare files to train the model. Arguments required includes paths to features file, target file, training files and test files. 
-'''python
+
 python prepare_data.py --X_input "path" --y_input "path" --X_train "path" --X_test "path", --y_train "path", --y_test "path"
-'''
+
 2. train_linear_model.py allow users to construct a linear model to predict the solubility of a molecule. Arguments required includes paths to load training files and to save model.
-'''python
+
 python train_linear_model.py  --X_train "path" , --y_train "path", --Model "path"
-'''
+
 3. prediction.py allow users to predict given the data. Arguments required inlcude path to load features file, path to save predicted values and path to load the saved model. 
-'''python
+
 python prepare_data.py --X "path" --y "path" --saved_model "path" 
-'''
+
 
 Data obtained from:
 John S. Delaney
