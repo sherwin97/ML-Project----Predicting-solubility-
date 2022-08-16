@@ -21,12 +21,12 @@ def train(path_features, path_solubilities, test_size, random_state, path_to_tra
     model = linear_model.LinearRegression()
     model.fit(X_train, y_train)
 
-    y_pred_train = model.predict(X_train)
+    y_pred_test = model.predict(X_test)
 
     print("Coefficient:", model.coef_)
     print("Intercept:", model.intercept_)
-    print("Mean squared error:", mean_squared_error(y_train, y_pred_train))
-    print("r2 value:", r2_score(y_train, y_pred_train))
+    print("Mean squared error:", mean_squared_error(y_test, y_pred_test))
+    print("r2 value:", r2_score(y_test, y_pred_test))
 
     joblib.dump(model, path_to_trained_model)
 

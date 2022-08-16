@@ -52,7 +52,7 @@ def prepare_data(
     )
 
     return (
-        df.to_csv(path_features, header=False, index=False)
+        df.to_csv(path_features, index=False)
     )
 
 
