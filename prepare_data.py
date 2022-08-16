@@ -4,7 +4,7 @@ import numpy as np
 import pandas as pd
 from rdkit import Chem
 from rdkit.Chem import Descriptors
-from sklearn.model_selection import train_test_split
+
 
 
 def AromaticAtoms(m):
@@ -17,7 +17,7 @@ def AromaticAtoms(m):
     ]
     aa_count = []
     for i in aromatic_atoms2:
-        if i == True:
+        if i:
             aa_count.append(i)
 
     sum_aa_count = sum(aa_count)
@@ -25,18 +25,13 @@ def AromaticAtoms(m):
 
 
 def prepare_data(
-    smiles,
-    solubility,
-    output_path1,
-    output_path2,
-    output_path3,
-    output_path4,
-    output_path5,
+    path_smiles,
+    path_features
 ):
     """
     Load csv containing smiles. Convert str to rdkit object and obtain MolLogP, MolWt, NumRotBonds, TPSA and AromaticProp. Return a dataframe.
     """
-    smiles_list = [item for item in open(smiles).read().replace("\n", ",").split(",")]
+    smiles_list = [item for item in open(path_smiles).read().replace("\n", ",").split(",")]
     mol_list = [Chem.MolFromSmiles(mol) for mol in smiles_list]
 
     mol_MolLogP_list = [Descriptors.MolLogP(mol) for mol in mol_list]
@@ -56,41 +51,18 @@ def prepare_data(
         }
     )
 
-    y = pd.read_csv(solubility)
-
-    X_train, X_test, y_train, y_test = train_test_split(
-        df, y, test_size=0.2, random_state=123
-    )
-
     return (
-        df.to_csv(output_path1),
-        X_train.to_csv(output_path2, index = False),
-        X_test.to_csv(output_path3, index = False),
-        y_train.to_csv(output_path4, index = False),
-        y_test.to_csv(output_path5, index=False),
+        df.to_csv(path_features, header=False, index=False)
     )
 
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
-    parser.add_argument("--X_input", help="Enter the file path containing SMILES")
-    parser.add_argument("--y_input", help="Enter the file path containing solubilities")
+    parser.add_argument("--path_smiles", help="Enter the file path containing SMILES")
     parser.add_argument(
-        "--output",
-        help="Enter the file path to save csv containing molecular descriptions",
-    )
-    parser.add_argument("--X_train", help="Enter the file path to save X_train")
-    parser.add_argument("--X_test", help="Enter the file path to save X_test")
-    parser.add_argument("--y_train", help="Enter the file path to save y_train")
-    parser.add_argument("--y_test", help="Enter the file path to save y_test")
+        "--path_features",
+        help="Enter the file path to save csv containing molecular descriptions")
+
     args = parser.parse_args()
 
-    prepare_data(
-        args.X_input,
-        args.y_input,
-        args.output,
-        args.X_train,
-        args.X_test,
-        args.y_train,
-        args.y_test,
-    )
+    prepare_data(args.path_smiles, args.path_features)
